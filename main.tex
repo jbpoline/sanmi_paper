@@ -1,5 +1,56 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{natbib}
+
+\title{Brain Network Group Testing}
+\author{--}
+\date{June 2017}
+
 \begin{document}
-(Type your content here.)
+
+\maketitle
+\section{Goals}
+We assume that you are given resting state data from two groups of subjects -- a control group and a treatment group. We also assume that you have pre-computed networks from available resting state data.
+Some references: \citep{varoquaux_brain_2010, belilovsky_learning_2016, belilovsky_testing_2016}
+
+{\bf Main goal:}
+\begin{itemize}
+    \item Test if the {\em treatment} group data are well explained by the control group networks
+    \item Estimate components for the treatment group
+\end{itemize}
+
+{\bf Preliminary goal:}
+\begin{itemize}
+    \item Test if the control group data are well explained by the pre-computed networks
+    \item Estimate components for the control group such that they are similar to the pre-computed basis.
+\end{itemize}
+We plan to apply similar strategies for both problems.
+
+\section{Model for control group}
+Let $n$ denote the number of subjects, $s$ denote the number of brain regions, and $t$ denote the number of time points. Let $K_\alpha$ denote the number of known brain networks i.e. the pre-computed basis, and $K_\beta$ denote the number of un-known networks. Thus $K = K_\alpha + K_\beta$ is the total number of brain sub-networks.
+
+The (known) brain sub-networks components are denoted by matrices $A_{s, k}$ shared across subjects, and the temporal weights are denoted by subject-specific parameters $B^n_{t, k}$. Similar;y, we denote unknown brain networks and weights by $C_{s, k}$ and $D^n_{s, k}$ respectively. We assume the within-group noise is IID Gaussian $E^{n}_{s,t} \sim N(0, 1)$. The resulting model for each sample is:
+\begin{equation}
+X^{n}_{s,t} = \sum_{k \in [K_\alpha]} A_{s, k} B^n_{t, k} + \sum_{k \in [K_\beta]} C_{s, k} D^n_{t, k} + E^{n}_{s,t}
+\end{equation}
+
+\subsection{Inference}
+We seek to test if $K_\beta >0$ i.e. if the data are well explained by the known networks of not. {\bf Proposal:} Apply a likelihood ration test to compare $P(\mathbf{X}|K_\beta=0)$ vs $P(\mathbf{X}|K_\beta=K_0)$. More details TBD.
+
+\subsection{Estimation}
+The first step is to estimate the factors associated with known components $B^n_{t, k}, {k \in [K_\alpha]}$, assuming $A_{s, k}$ are known and fixed based on pre-extisting data. This can be solved using linear regression (possibly sparse linear regression.
+
+The second steo us to estimagte the new components (if any) i.e. $C_{s, k}, D^n_{t, k}, {k \in [K_\beta]}$. We can solve this by computing the residual:
+$$R^{n}_{s,t} =  X^{n}_{s,t} - \sum_{k \in [K_\alpha]} A_{s, k} B^n_{t, k} $$
+Following this, we can apply the group dictionary level model 
+%\footnote{ \hyperlink{http://nilearn.github.io/auto_examples/03_connectivity/plot_compare_resting_state_decomposition.html}{http://nilearn.github.io/auto_examples/03_connectivity/plot_compare_resting_state_decomposition.html}} to the residual.
+
+Alternatively, we may be able to compute better estimates using a joint approach instead of separate estimation.
+\newpage
+\subsection*{References}
+\bibliographystyle{plain}
+\bibliography{references}
+
 \end{document}
+

@@ -41,12 +41,13 @@ We seek to test if $K_\beta >0$ i.e. if the data are well explained by the known
 \subsection{Estimation}
 The first step is to estimate the factors associated with known components $B^n_{t, k}, {k \in [K_\alpha]}$, assuming $A_{s, k}$ are known and fixed based on pre-extisting data. This can be solved using linear regression (possibly sparse linear regression.
 
-The second steo us to estimagte the new components (if any) i.e. $C_{s, k}, D^n_{t, k}, {k \in [K_\beta]}$. We can solve this by computing the residual:
+The second step is to estimate the new components (if any) i.e. $C_{s, k}, D^n_{t, k}, {k \in [K_\beta]}$. We can solve this by computing the residual:
 $$R^{n}_{s,t} =  X^{n}_{s,t} - \sum_{k \in [K_\alpha]} A_{s, k} B^n_{t, k} $$
 Following this, we can apply the group dictionary level model 
-%\footnote{ \hyperlink{http://nilearn.github.io/auto_examples/03_connectivity/plot_compare_resting_state_decomposition.html}{http://nilearn.github.io/auto_examples/03_connectivity/plot_compare_resting_state_decomposition.html}} to the residual.
+%\footnote{ \href{nilearn.github.io\/auto_examples\/03_connectivity\/plot_compare_resting_state_decomposition.html}{nilearn.github.io\/auto_examples\/03_connectivity\/plot_compare_resting_state_decomposition.html}}
+to the residual.
 
-Alternatively, we may be able to compute better estimates using a joint approach instead of separate estimation.
+Alternatively, we may be able to compute better estimates using a joint approach instead of separate estimation. %jb: agree, there seems to be something suboptimal with the separate estimation but we are gaining in simplicity
 \newpage
 \subsection*{References}
 \bibliographystyle{plain}
